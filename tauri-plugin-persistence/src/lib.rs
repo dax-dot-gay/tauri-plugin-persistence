@@ -1,4 +1,4 @@
-use std::{collections::HashMap, sync::Arc};
+use std::collections::HashMap;
 
 use tauri::{
   plugin::{Builder, TauriPlugin},
@@ -10,7 +10,7 @@ mod desktop;
 mod api;
 mod commands;
 
-pub use api::{Error, Result, state};
+pub use api::{Error, Result, state, Context};
 
 #[cfg(desktop)]
 use desktop::Persistence;
@@ -35,7 +35,7 @@ pub fn init<R: Runtime>() -> TauriPlugin<R> {
       #[cfg(desktop)]
       let persistence = desktop::init(app, api)?;
       app.manage(persistence);
-      app.manage::<state::PluginState>(Arc::new(Mutex::new(HashMap::new())));
+      app.manage::<state::PluginState>(Mutex::new(HashMap::new()));
       Ok(())
     })
     .build()
