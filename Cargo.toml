@@ -1,0 +1,6 @@
+[workspace]
+resolver = "2"
+members = [
+    "tauri-plugin-persistence",
+    "tauri-plugin-persistence/examples/tauri-app/src-tauri",
+]
