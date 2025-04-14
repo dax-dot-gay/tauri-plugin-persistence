@@ -1,25 +1,20 @@
+use std::{collections::HashMap, sync::Arc};
+
 use tauri::{
   plugin::{Builder, TauriPlugin},
   Manager, Runtime,
 };
 
-pub use models::*;
-
 #[cfg(desktop)]
 mod desktop;
-#[cfg(mobile)]
-mod mobile;
-
+mod api;
 mod commands;
-mod error;
-mod models;
 
-pub use error::{Error, Result};
+pub use api::{Error, Result, state};
 
 #[cfg(desktop)]
 use desktop::Persistence;
-#[cfg(mobile)]
-use mobile::Persistence;
+use tokio::sync::Mutex;
 
 /// Extensions to [`tauri::App`], [`tauri::AppHandle`] and [`tauri::Window`] to access the persistence APIs.
 pub trait PersistenceExt<R: Runtime> {
@@ -35,13 +30,12 @@ impl<R: Runtime, T: Manager<R>> crate::PersistenceExt<R> for T {
 /// Initializes the plugin.
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
   Builder::new("persistence")
-    .invoke_handler(tauri::generate_handler![commands::ping])
+    .invoke_handler(tauri::generate_handler![])
     .setup(|app, api| {
-      #[cfg(mobile)]
-      let persistence = mobile::init(app, api)?;
       #[cfg(desktop)]
       let persistence = desktop::init(app, api)?;
       app.manage(persistence);
+      app.manage::<state::PluginState>(Arc::new(Mutex::new(HashMap::new())));
       Ok(())
     })
     .build()
