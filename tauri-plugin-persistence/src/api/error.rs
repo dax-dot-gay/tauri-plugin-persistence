@@ -36,6 +36,9 @@ pub enum Error {
     #[error("The file handle with ID {0} does not exist.")]
     UnknownFileHandle(String),
 
+    #[error("Unknown transaction ID {0} in current database.")]
+    UnknownTransaction(String),
+
     #[error("Invalid path: {0}")]
     InvalidPath(String),
 
@@ -43,12 +46,39 @@ pub enum Error {
     NoAbsolutePaths(String),
 
     #[error("Specified relative path escapes root path of this context: {0}")]
-    PathEscapesContext(String)
+    PathEscapesContext(String),
+
+    #[error("Encountered a database error: {0}")]
+    DatabaseError(String),
+
+    #[error("Serialization error: {0}")]
+    SerializationError(String),
+
+    #[error("Deserialization error: {0}")]
+    DeserializationError(String)
 }
 
 impl From<anyhow::Error> for Error {
     fn from(value: anyhow::Error) -> Self {
         Self::Unknown(value.to_string())
+    }
+}
+
+impl From<polodb_core::Error> for Error {
+    fn from(value: polodb_core::Error) -> Self {
+        Self::DatabaseError(value.to_string())
+    }
+}
+
+impl From<bson::ser::Error> for Error {
+    fn from(value: bson::ser::Error) -> Self {
+        Self::SerializationError(value.to_string())
+    }
+}
+
+impl From<bson::de::Error> for Error {
+    fn from(value: bson::de::Error) -> Self {
+        Self::DeserializationError(value.to_string())
     }
 }
 
@@ -87,6 +117,10 @@ impl Error {
 
     pub fn unknown_file_handle(id: impl AsRef<str>) -> Self {
         Self::UnknownFileHandle(id.as_ref().to_string())
+    }
+
+    pub fn unknown_transaction(id: impl AsRef<str>) -> Self {
+        Self::UnknownTransaction(id.as_ref().to_string())
     }
 }
 

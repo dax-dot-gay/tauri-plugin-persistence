@@ -1,6 +1,6 @@
 use std::{collections::HashMap, sync::Arc};
 
-use polodb_core::{ClientCursor, Database, Transaction};
+use polodb_core::{Database, Transaction};
 use serde::{Deserialize, Serialize};
 use tokio::{fs::{File, OpenOptions}, sync::Mutex};
 
@@ -9,8 +9,7 @@ pub struct ContextDB {
     pub name: String,
     pub path: String,
     pub database: Arc<Mutex<Database>>,
-    pub cursors: Arc<Mutex<HashMap<String, ClientCursor<bson::Document>>>>,
-    pub transactions: Arc<Mutex<HashMap<String, Transaction>>>,
+    pub transactions: Arc<Mutex<HashMap<bson::Uuid, Arc<Mutex<Transaction>>>>>,
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
@@ -87,7 +86,7 @@ impl Into<OpenOptions> for FileHandleMode {
 pub struct ContextFileHandle {
     pub id: bson::Uuid,
     pub path: String,
-    pub handle: Arc<Mutex<File>>,
+    pub handle: async_dup::Arc<async_dup::Mutex<File>>,
     pub mode: FileHandleMode
 }
 

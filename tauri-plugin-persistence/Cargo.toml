@@ -21,7 +21,7 @@ figment = { version = "0.10.19", features = ["json", "toml", "yaml"], optional =
 notify = { version = "8.0.0", features = ["serde"] }
 base64 = "0.22.1"
 anyhow = "1.0.98"
-relative-path = "1.9.3"
+async-dup = "1.2.4"
 
 [build-dependencies]
 tauri-plugin = { version = "2.1.1", features = ["build"] }
