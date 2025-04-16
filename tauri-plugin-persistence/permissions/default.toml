@@ -1,3 +1,8 @@
 [default]
 description = "Default permissions for the plugin"
-permissions = ["allow-ping"]
+permissions = [
+    "allow-context",
+    "allow-database-operations",
+    "allow-file-operations",
+    "allow-fs-operations"
+]

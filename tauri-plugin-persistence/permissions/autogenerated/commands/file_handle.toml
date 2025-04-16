@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-file-handle"
+description = "Enables the file_handle command without any pre-configured scope."
+commands.allow = ["file_handle"]
+
+[[permission]]
+identifier = "deny-file-handle"
+description = "Denies the file_handle command without any pre-configured scope."
+commands.deny = ["file_handle"]

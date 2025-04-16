@@ -295,6 +295,306 @@
       "type": "string",
       "oneOf": [
         {
+          "description": "Enables the collection_count_documents command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-collection-count-documents",
+          "markdownDescription": "Enables the collection_count_documents command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the collection_count_documents command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-collection-count-documents",
+          "markdownDescription": "Denies the collection_count_documents command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the collection_create_index command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-collection-create-index",
+          "markdownDescription": "Enables the collection_create_index command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the collection_create_index command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-collection-create-index",
+          "markdownDescription": "Denies the collection_create_index command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the collection_delete_documents command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-collection-delete-documents",
+          "markdownDescription": "Enables the collection_delete_documents command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the collection_delete_documents command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-collection-delete-documents",
+          "markdownDescription": "Denies the collection_delete_documents command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the collection_drop command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-collection-drop",
+          "markdownDescription": "Enables the collection_drop command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the collection_drop command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-collection-drop",
+          "markdownDescription": "Denies the collection_drop command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the collection_drop_index command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-collection-drop-index",
+          "markdownDescription": "Enables the collection_drop_index command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the collection_drop_index command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-collection-drop-index",
+          "markdownDescription": "Denies the collection_drop_index command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the collection_find_many_documents command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-collection-find-many-documents",
+          "markdownDescription": "Enables the collection_find_many_documents command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the collection_find_many_documents command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-collection-find-many-documents",
+          "markdownDescription": "Denies the collection_find_many_documents command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the collection_find_one_document command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-collection-find-one-document",
+          "markdownDescription": "Enables the collection_find_one_document command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the collection_find_one_document command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-collection-find-one-document",
+          "markdownDescription": "Denies the collection_find_one_document command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the collection_insert_documents command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-collection-insert-documents",
+          "markdownDescription": "Enables the collection_insert_documents command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the collection_insert_documents command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-collection-insert-documents",
+          "markdownDescription": "Denies the collection_insert_documents command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the collection_update_documents command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-collection-update-documents",
+          "markdownDescription": "Enables the collection_update_documents command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the collection_update_documents command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-collection-update-documents",
+          "markdownDescription": "Denies the collection_update_documents command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the context command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-context",
+          "markdownDescription": "Enables the context command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the context command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-context",
+          "markdownDescription": "Denies the context command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the create_directory command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-create-directory",
+          "markdownDescription": "Enables the create_directory command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the create_directory command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-create-directory",
+          "markdownDescription": "Denies the create_directory command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the database command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-database",
+          "markdownDescription": "Enables the database command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the database command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-database",
+          "markdownDescription": "Denies the database command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the database_close command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-database-close",
+          "markdownDescription": "Enables the database_close command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the database_close command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-database-close",
+          "markdownDescription": "Denies the database_close command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the database_commit_transaction command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-database-commit-transaction",
+          "markdownDescription": "Enables the database_commit_transaction command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the database_commit_transaction command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-database-commit-transaction",
+          "markdownDescription": "Denies the database_commit_transaction command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the database_get_collections command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-database-get-collections",
+          "markdownDescription": "Enables the database_get_collections command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the database_get_collections command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-database-get-collections",
+          "markdownDescription": "Denies the database_get_collections command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the database_rollback_transaction command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-database-rollback-transaction",
+          "markdownDescription": "Enables the database_rollback_transaction command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the database_rollback_transaction command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-database-rollback-transaction",
+          "markdownDescription": "Denies the database_rollback_transaction command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the database_start_transaction command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-database-start-transaction",
+          "markdownDescription": "Enables the database_start_transaction command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the database_start_transaction command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-database-start-transaction",
+          "markdownDescription": "Denies the database_start_transaction command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the file_close command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-file-close",
+          "markdownDescription": "Enables the file_close command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the file_close command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-file-close",
+          "markdownDescription": "Denies the file_close command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the file_handle command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-file-handle",
+          "markdownDescription": "Enables the file_handle command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the file_handle command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-file-handle",
+          "markdownDescription": "Denies the file_handle command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the file_read_bytes command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-file-read-bytes",
+          "markdownDescription": "Enables the file_read_bytes command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the file_read_bytes command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-file-read-bytes",
+          "markdownDescription": "Denies the file_read_bytes command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the file_read_text command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-file-read-text",
+          "markdownDescription": "Enables the file_read_text command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the file_read_text command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-file-read-text",
+          "markdownDescription": "Denies the file_read_text command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the file_write_bytes command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-file-write-bytes",
+          "markdownDescription": "Enables the file_write_bytes command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the file_write_bytes command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-file-write-bytes",
+          "markdownDescription": "Denies the file_write_bytes command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the file_write_text command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-file-write-text",
+          "markdownDescription": "Enables the file_write_text command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the file_write_text command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-file-write-text",
+          "markdownDescription": "Denies the file_write_text command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the get_absolute_path_to command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-get-absolute-path-to",
+          "markdownDescription": "Enables the get_absolute_path_to command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the get_absolute_path_to command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-get-absolute-path-to",
+          "markdownDescription": "Denies the get_absolute_path_to command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the get_context_base_path command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-get-context-base-path",
+          "markdownDescription": "Enables the get_context_base_path command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the get_context_base_path command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-get-context-base-path",
+          "markdownDescription": "Denies the get_context_base_path command without any pre-configured scope."
+        },
+        {
           "description": "Enables the ping command without any pre-configured scope.",
           "type": "string",
           "const": "allow-ping",
@@ -305,6 +605,30 @@
           "type": "string",
           "const": "deny-ping",
           "markdownDescription": "Denies the ping command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the remove_directory command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-remove-directory",
+          "markdownDescription": "Enables the remove_directory command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the remove_directory command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-remove-directory",
+          "markdownDescription": "Denies the remove_directory command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the remove_file command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-remove-file",
+          "markdownDescription": "Enables the remove_file command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the remove_file command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-remove-file",
+          "markdownDescription": "Denies the remove_file command without any pre-configured scope."
         },
         {
           "description": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-ping`",

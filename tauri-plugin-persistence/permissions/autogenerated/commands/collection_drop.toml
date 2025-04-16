@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-collection-drop"
+description = "Enables the collection_drop command without any pre-configured scope."
+commands.allow = ["collection_drop"]
+
+[[permission]]
+identifier = "deny-collection-drop"
+description = "Denies the collection_drop command without any pre-configured scope."
+commands.deny = ["collection_drop"]

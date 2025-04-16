@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-collection-find-one-document"
+description = "Enables the collection_find_one_document command without any pre-configured scope."
+commands.allow = ["collection_find_one_document"]
+
+[[permission]]
+identifier = "deny-collection-find-one-document"
+description = "Denies the collection_find_one_document command without any pre-configured scope."
+commands.deny = ["collection_find_one_document"]

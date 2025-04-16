@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-collection-update-documents"
+description = "Enables the collection_update_documents command without any pre-configured scope."
+commands.allow = ["collection_update_documents"]
+
+[[permission]]
+identifier = "deny-collection-update-documents"
+description = "Denies the collection_update_documents command without any pre-configured scope."
+commands.deny = ["collection_update_documents"]

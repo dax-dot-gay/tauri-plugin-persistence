@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-database-get-collections"
+description = "Enables the database_get_collections command without any pre-configured scope."
+commands.allow = ["database_get_collections"]
+
+[[permission]]
+identifier = "deny-database-get-collections"
+description = "Denies the database_get_collections command without any pre-configured scope."
+commands.deny = ["database_get_collections"]

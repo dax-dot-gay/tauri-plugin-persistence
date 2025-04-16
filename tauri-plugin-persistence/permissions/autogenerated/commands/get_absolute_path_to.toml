@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-get-absolute-path-to"
+description = "Enables the get_absolute_path_to command without any pre-configured scope."
+commands.allow = ["get_absolute_path_to"]
+
+[[permission]]
+identifier = "deny-get-absolute-path-to"
+description = "Denies the get_absolute_path_to command without any pre-configured scope."
+commands.deny = ["get_absolute_path_to"]

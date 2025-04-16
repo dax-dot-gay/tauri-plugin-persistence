@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-context"
+description = "Enables the context command without any pre-configured scope."
+commands.allow = ["context"]
+
+[[permission]]
+identifier = "deny-context"
+description = "Denies the context command without any pre-configured scope."
+commands.deny = ["context"]

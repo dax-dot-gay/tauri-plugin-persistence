@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-database-commit-transaction"
+description = "Enables the database_commit_transaction command without any pre-configured scope."
+commands.allow = ["database_commit_transaction"]
+
+[[permission]]
+identifier = "deny-database-commit-transaction"
+description = "Denies the database_commit_transaction command without any pre-configured scope."
+commands.deny = ["database_commit_transaction"]

@@ -1,0 +1,45 @@
+"$schema" = "schemas/schema.json"
+
+[[set]]
+identifier = "allow-database-operations"
+description = "Allows database operations"
+permissions = [
+    "allow-database",
+    "allow-database_get_collections",
+    "allow-database_close",
+    "allow-database_start_transaction",
+    "allow-database_commit_transaction",
+    "allow-database_rollback_transaction",
+    "allow-collection_count_documents",
+    "allow-collection_update_documents",
+    "allow-collection_delete_documents",
+    "allow-collection_create_index",
+    "allow-collection_drop_index",
+    "allow-collection_drop",
+    "allow-collection_insert_documents",
+    "allow-collection_find_many_documents",
+    "allow-collection_find_one_document",
+]
+
+[[set]]
+identifier = "allow-file-operations"
+description = "Allows interactions with FileHandles"
+permissions = [
+    "allow-file_handle",
+    "allow-file_close",
+    "allow-file_write_text",
+    "allow-file_write_bytes",
+    "allow-file_read_text",
+    "allow-file_read_bytes",
+]
+
+[[set]]
+identifier = "allow-fs-operations"
+description = "Allows more direct operations on the filesystem and surrounding context."
+permissions = [
+    "allow-get_context_base_path",
+    "allow-get_absolute_path_to",
+    "allow-create_directory",
+    "allow-remove_directory",
+    "allow-remove_file",
+]

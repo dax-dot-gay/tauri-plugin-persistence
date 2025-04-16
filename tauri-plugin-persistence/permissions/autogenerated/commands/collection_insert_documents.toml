@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-collection-insert-documents"
+description = "Enables the collection_insert_documents command without any pre-configured scope."
+commands.allow = ["collection_insert_documents"]
+
+[[permission]]
+identifier = "deny-collection-insert-documents"
+description = "Denies the collection_insert_documents command without any pre-configured scope."
+commands.deny = ["collection_insert_documents"]

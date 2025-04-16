@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-collection-create-index"
+description = "Enables the collection_create_index command without any pre-configured scope."
+commands.allow = ["collection_create_index"]
+
+[[permission]]
+identifier = "deny-collection-create-index"
+description = "Denies the collection_create_index command without any pre-configured scope."
+commands.deny = ["collection_create_index"]

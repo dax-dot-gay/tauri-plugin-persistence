@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-database-close"
+description = "Enables the database_close command without any pre-configured scope."
+commands.allow = ["database_close"]
+
+[[permission]]
+identifier = "deny-database-close"
+description = "Denies the database_close command without any pre-configured scope."
+commands.deny = ["database_close"]
