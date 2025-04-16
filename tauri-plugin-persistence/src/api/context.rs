@@ -337,7 +337,17 @@ impl<R: Runtime> Database<R> {
         Ok(Transaction::<R>::create(self.clone(), new_id))
     }
 
-    pub(crate) async fn commit_transaction(&self, id: bson::Uuid) -> crate::Result<()> {
+    pub async fn get_transaction(&self, id: bson::Uuid) -> crate::Result<Transaction<R>> {
+        let context = self.db_context().await?;
+        let transactions = context.transactions.lock().await;
+        if let Some(_) = transactions.get(&id) {
+            Ok(Transaction::<R>::create(self.clone(), id.clone()))
+        } else {
+            Err(crate::Error::unknown_transaction(id.to_string()))
+        }
+    }
+
+    pub async fn commit_transaction(&self, id: bson::Uuid) -> crate::Result<()> {
         if let Some(mutex) = self.db_context().await?.transactions.lock().await.remove(&id) {
             let transaction = mutex.lock().await;
             transaction.commit().or_else(|e| Err(crate::Error::from(e)))
@@ -346,7 +356,7 @@ impl<R: Runtime> Database<R> {
         }
     }
 
-    pub(crate) async fn rollback_transaction(&self, id: bson::Uuid) -> crate::Result<()> {
+    pub async fn rollback_transaction(&self, id: bson::Uuid) -> crate::Result<()> {
         if let Some(mutex) = self.db_context().await?.transactions.lock().await.remove(&id) {
             let transaction = mutex.lock().await;
             transaction.rollback().or_else(|e| Err(crate::Error::from(e)))

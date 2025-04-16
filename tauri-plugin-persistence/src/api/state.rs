@@ -2,6 +2,7 @@ use std::{collections::HashMap, sync::Arc};
 
 use polodb_core::{Database, Transaction};
 use serde::{Deserialize, Serialize};
+use specta::Type;
 use tokio::{fs::{File, OpenOptions}, sync::Mutex};
 
 #[derive(Clone)]
@@ -12,7 +13,7 @@ pub struct ContextDB {
     pub transactions: Arc<Mutex<HashMap<bson::Uuid, Arc<Mutex<Transaction>>>>>,
 }
 
-#[derive(Clone, Serialize, Deserialize, Debug)]
+#[derive(Clone, Serialize, Deserialize, Debug, Type)]
 #[serde(rename_all = "snake_case", tag = "mode")]
 pub enum FileHandleMode {
     Create {

@@ -1,10 +1,10 @@
 use std::{collections::HashMap, str::FromStr, sync::Arc};
 
-use serde::de::DeserializeOwned;
+use serde::{de::DeserializeOwned, Serialize};
 use tauri::{plugin::PluginApi, AppHandle, Manager, Runtime, State};
 use tokio::sync::Mutex;
 
-use crate::state::{ContextState, PluginState};
+use crate::{api::types::{CollectionSpecifier, ContextSpecifier, DatabaseSpecifier, FileHandleSpecifier}, state::{ContextState, PluginState}};
 
 pub fn init<R: Runtime, C: DeserializeOwned>(
   app: &AppHandle<R>,
@@ -53,11 +53,50 @@ impl<R: Runtime> Persistence<R> {
         }
     }
 
-    pub async fn context(&self, name: impl AsRef<str>) -> crate::Result<crate::Context<R>> {
+    pub async fn aliased_context(&self, name: impl AsRef<str>) -> crate::Result<crate::Context<R>> {
         if let Some(ctx) = self.contexts().lock().await.get(&name.as_ref().to_string()) {
             Ok(crate::Context::<R>::create(self.handle(), name.as_ref().to_string(), ctx.root_path.clone()))
         } else {
             Err(crate::Error::unknown_context(name))
+        }
+    }
+
+    pub async fn context(&self, context: ContextSpecifier) -> crate::Result<crate::Context<R>> {
+        match context {
+            ContextSpecifier::Aliased { alias } => self.aliased_context(alias).await,
+            ContextSpecifier::Direct { alias, path } => self.open_context(alias, path).await
+        }
+    }
+
+    pub async fn database(&self, context: ContextSpecifier, database: DatabaseSpecifier) -> crate::Result<crate::Database<R>> {
+        let context = self.context(context).await?;
+        match database {
+            DatabaseSpecifier::Aliased { alias } => context.database(alias).await,
+            DatabaseSpecifier::Direct { alias, path } => context.open_database(alias, path).await
+        }
+    }
+
+    pub async fn file_handle(&self, context: ContextSpecifier, file_handle: FileHandleSpecifier) -> crate::Result<crate::FileHandle<R>> {
+        let context = self.context(context).await?;
+        match file_handle {
+            FileHandleSpecifier::Aliased { id } => context.file_handle(id).await,
+            FileHandleSpecifier::Direct { path, mode } => context.open_file_handle(path, mode).await
+        }
+    }
+
+    pub async fn transaction(&self, context: ContextSpecifier, database: DatabaseSpecifier, transaction: bson::Uuid) -> crate::Result<crate::Transaction<R>> {
+        let database = self.database(context, database).await?;
+        database.get_transaction(transaction).await
+    }
+
+    pub async fn collection<T: Serialize + DeserializeOwned + Sync + Send>(&self, context: ContextSpecifier, database: DatabaseSpecifier, collection: CollectionSpecifier) -> crate::Result<crate::Collection<T, R>> {
+        let database = self.database(context, database).await?;
+        match collection {
+            CollectionSpecifier::Global { name } => Ok(database.collection(name).await),
+            CollectionSpecifier::Transaction { transaction, name } => {
+                let trn = database.get_transaction(transaction).await?;
+                Ok(trn.collection(name))
+            }
         }
     }
 }
