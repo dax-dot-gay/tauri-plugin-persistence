@@ -52,7 +52,12 @@ fn builder() -> tauri_specta::Builder<tauri::Wry> {
         commands::file_write_text,
         commands::file_write_bytes,
         commands::file_read_text,
-        commands::file_read_bytes
+        commands::file_read_bytes,
+        commands::get_context_base_path,
+        commands::get_absolute_path_to,
+        commands::create_directory,
+        commands::remove_directory,
+        commands::remove_file
     ])
 }
 

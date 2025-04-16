@@ -63,7 +63,10 @@ pub enum Error {
     IOError{ reason: String },
 
     #[error("Failed to encode {reason} bytes as UTF-8 string.")]
-    StringEncodingError{ reason: String }
+    StringEncodingError{ reason: String },
+
+    #[error("Filesystem operation failed ({operation}): {reason}")]
+    FilesystemError {operation: String, reason: String}
 }
 
 impl From<anyhow::Error> for Error {
@@ -139,6 +142,10 @@ impl Error {
 
     pub fn string_encoding(size: usize) -> Self {
         Self::StringEncodingError{reason: size.to_string()}
+    }
+
+    pub fn filesystem(operation: impl AsRef<str>, reason: impl AsRef<str>) -> Self {
+        Self::FilesystemError { operation: operation.as_ref().to_string(), reason: reason.as_ref().to_string() }
     }
 }
 

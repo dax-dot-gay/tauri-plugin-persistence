@@ -56,14 +56,45 @@ impl<R: Runtime> Context<R> {
         }
         let joined = self
             .base_path()
-            .join(&resolved)
-            .canonicalize()
-            .or(Err(crate::Error::invalid_path(path.as_ref())))?;
+            .canonicalize().or(Err(crate::Error::invalid_path(path.as_ref())))?
+            .join(&resolved);
         if !joined.starts_with(resolved) {
             return Err(crate::Error::path_escapes_context(path.as_ref()));
         }
 
         Ok(joined)
+    }
+
+    pub fn base_path_canonicalized(&self) -> crate::Result<PathBuf> {
+        PathBuf::from_str(&self.path()).unwrap().canonicalize().or_else(|_| Err(crate::Error::invalid_path(self.path())))
+    }
+
+    pub async fn create_directory(&self, path: impl AsRef<str>, parents: bool) -> crate::Result<()> {
+        let resolved = self.get_path(path)?;
+        let create_result = if parents {tokio::fs::create_dir_all(&resolved).await} else {tokio::fs::create_dir(&resolved).await};
+        if let Err(error) = create_result {
+            return Err(crate::Error::filesystem("CREATE_DIRECTORY", error.to_string()));
+        }
+
+        Ok(())
+    }
+
+    pub async fn remove_directory(&self, path: impl AsRef<str>) -> crate::Result<()> {
+        let resolved = self.get_path(path)?;
+        if !resolved.is_dir() {
+            return Err(crate::Error::filesystem("REMOVE_DIRECTORY", "Specified path is not a directory or does not exist."));
+        }
+        tokio::fs::remove_dir_all(resolved).await.or_else(|error| Err(crate::Error::filesystem("REMOVE_DIRECTORY", error.to_string())))?;
+        Ok(())
+    }
+
+    pub async fn remove_file(&self, path: impl AsRef<str>) -> crate::Result<()> {
+        let resolved = self.get_path(path)?;
+        if !resolved.is_file() {
+            return Err(crate::Error::filesystem("REMOVE_FILE", "Specified path is not a file or does not exist."));
+        }
+        tokio::fs::remove_file(resolved).await.or_else(|error| Err(crate::Error::filesystem("REMOVE_FILE", error.to_string())))?;
+        Ok(())
     }
 
     pub(crate) async fn state(&self) -> ContextState {

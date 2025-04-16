@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, ffi::OsString};
 
 use polodb_core::{options::UpdateOptions, IndexModel, IndexOptions};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -385,4 +385,60 @@ pub async fn file_read_bytes(
         buffer
     };
     Ok(output)
+}
+
+// Filesystem commands
+#[tauri::command]
+#[specta::specta]
+pub async fn get_context_base_path(
+    app: tauri::AppHandle,
+    context: ContextSpecifier
+) -> crate::Result<OsString> {
+    let context = app.persistence().context(context).await?;
+    context.base_path_canonicalized().and_then(|p| Ok(p.into_os_string()))
+}
+
+#[tauri::command]
+#[specta::specta]
+pub async fn create_directory(
+    app: tauri::AppHandle,
+    context: ContextSpecifier,
+    path: String,
+    parents: bool
+) -> crate::Result<()> {
+    let context = app.persistence().context(context).await?;
+    context.create_directory(path, parents).await
+}
+
+#[tauri::command]
+#[specta::specta]
+pub async fn remove_directory(
+    app: tauri::AppHandle,
+    context: ContextSpecifier,
+    path: String
+) -> crate::Result<()> {
+    let context = app.persistence().context(context).await?;
+    context.remove_directory(path).await
+}
+
+#[tauri::command]
+#[specta::specta]
+pub async fn remove_file(
+    app: tauri::AppHandle,
+    context: ContextSpecifier,
+    path: String
+) -> crate::Result<()> {
+    let context = app.persistence().context(context).await?;
+    context.remove_file(path).await
+}
+
+#[tauri::command]
+#[specta::specta]
+pub async fn get_absolute_path_to(
+    app: tauri::AppHandle,
+    context: ContextSpecifier,
+    path: String
+) -> crate::Result<OsString> {
+    let context = app.persistence().context(context).await?;
+    Ok(context.get_path(path)?.into_os_string())
 }

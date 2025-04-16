@@ -180,6 +180,46 @@ async fileReadBytes(context: ContextSpecifier, fileHandle: FileHandleSpecifier, 
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+async getContextBasePath(context: ContextSpecifier) : Promise<Result<string, Error>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|get_context_base_path", { context }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async getAbsolutePathTo(context: ContextSpecifier, path: string) : Promise<Result<string, Error>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|get_absolute_path_to", { context, path }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async createDirectory(context: ContextSpecifier, path: string, parents: boolean) : Promise<Result<null, Error>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|create_directory", { context, path, parents }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async removeDirectory(context: ContextSpecifier, path: string) : Promise<Result<null, Error>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|remove_directory", { context, path }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async removeFile(context: ContextSpecifier, path: string) : Promise<Result<null, Error>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|remove_file", { context, path }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -198,7 +238,7 @@ export type ContextInfo = { name: string; path: string }
 export type ContextSpecifier = { alias: string } | { alias: string; path: string }
 export type DatabaseInfo = { name: string; path: string }
 export type DatabaseSpecifier = { alias: string } | { alias: string; path: string }
-export type Error = { kind: "unknown"; reason: string } | { kind: "open_context"; name: string; path: string; reason: string } | { kind: "open_database"; name: string; context: string; path: string; reason: string } | { kind: "open_file_handle"; path: string; context: string; reason: string } | { kind: "unknown_context"; reason: string } | { kind: "unknown_database"; reason: string } | { kind: "unknown_file_handle"; reason: string } | { kind: "unknown_transaction"; reason: string } | { kind: "invalid_path"; reason: string } | { kind: "no_absolute_paths"; reason: string } | { kind: "path_escapes_context"; reason: string } | { kind: "database_error"; reason: string } | { kind: "serialization_error"; reason: string } | { kind: "deserialization_error"; reason: string } | { kind: "io_error"; reason: string } | { kind: "string_encoding_error"; reason: string }
+export type Error = { kind: "unknown"; reason: string } | { kind: "open_context"; name: string; path: string; reason: string } | { kind: "open_database"; name: string; context: string; path: string; reason: string } | { kind: "open_file_handle"; path: string; context: string; reason: string } | { kind: "unknown_context"; reason: string } | { kind: "unknown_database"; reason: string } | { kind: "unknown_file_handle"; reason: string } | { kind: "unknown_transaction"; reason: string } | { kind: "invalid_path"; reason: string } | { kind: "no_absolute_paths"; reason: string } | { kind: "path_escapes_context"; reason: string } | { kind: "database_error"; reason: string } | { kind: "serialization_error"; reason: string } | { kind: "deserialization_error"; reason: string } | { kind: "io_error"; reason: string } | { kind: "string_encoding_error"; reason: string } | { kind: "filesystem_error"; operation: string; reason: string }
 export type FileHandleInfo = { id: string; path: string; mode: FileHandleMode }
 export type FileHandleMode = { mode: "create"; new: boolean; overwrite: boolean } | { mode: "write"; overwrite: boolean } | { mode: "read" }
 export type FileHandleSpecifier = { id: string } | { path: string; mode: FileHandleMode }
