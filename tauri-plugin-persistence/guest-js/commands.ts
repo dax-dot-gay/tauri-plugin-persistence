@@ -233,11 +233,11 @@ async removeFile(context: ContextSpecifier, path: string) : Promise<Result<null,
 
 /** user-defined types **/
 
-export type CollectionSpecifier = { name: string } | { transaction: string; name: string }
+export type CollectionSpecifier = { transaction: string; name: string } | { name: string }
 export type ContextInfo = { name: string; path: string }
-export type ContextSpecifier = { alias: string } | { alias: string; path: string }
+export type ContextSpecifier = { alias: string; path: string } | { alias: string }
 export type DatabaseInfo = { name: string; path: string }
-export type DatabaseSpecifier = { alias: string } | { alias: string; path: string }
+export type DatabaseSpecifier = { alias: string; path: string } | { alias: string }
 export type Error = { kind: "unknown"; reason: string } | { kind: "open_context"; name: string; path: string; reason: string } | { kind: "open_database"; name: string; context: string; path: string; reason: string } | { kind: "open_file_handle"; path: string; context: string; reason: string } | { kind: "unknown_context"; reason: string } | { kind: "unknown_database"; reason: string } | { kind: "unknown_file_handle"; reason: string } | { kind: "unknown_transaction"; reason: string } | { kind: "invalid_path"; reason: string } | { kind: "no_absolute_paths"; reason: string } | { kind: "path_escapes_context"; reason: string } | { kind: "database_error"; reason: string } | { kind: "serialization_error"; reason: string } | { kind: "deserialization_error"; reason: string } | { kind: "io_error"; reason: string } | { kind: "string_encoding_error"; reason: string } | { kind: "filesystem_error"; operation: string; reason: string }
 export type FileHandleInfo = { id: string; path: string; mode: FileHandleMode }
 export type FileHandleMode = { mode: "create"; new: boolean; overwrite: boolean } | { mode: "write"; overwrite: boolean } | { mode: "read" }

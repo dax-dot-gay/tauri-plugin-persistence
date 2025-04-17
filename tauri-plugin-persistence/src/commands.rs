@@ -1,4 +1,4 @@
-use std::{collections::HashMap, ffi::OsString};
+use std::collections::HashMap;
 
 use polodb_core::{options::UpdateOptions, IndexModel, IndexOptions};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -393,9 +393,9 @@ pub async fn file_read_bytes(
 pub async fn get_context_base_path(
     app: tauri::AppHandle,
     context: ContextSpecifier
-) -> crate::Result<OsString> {
+) -> crate::Result<String> {
     let context = app.persistence().context(context).await?;
-    context.base_path_canonicalized().and_then(|p| Ok(p.into_os_string()))
+    context.base_path_canonicalized().and_then(|p| Ok(String::from_utf8_lossy(p.into_os_string().as_encoded_bytes()).to_string()))
 }
 
 #[tauri::command]
@@ -438,7 +438,7 @@ pub async fn get_absolute_path_to(
     app: tauri::AppHandle,
     context: ContextSpecifier,
     path: String
-) -> crate::Result<OsString> {
+) -> crate::Result<String> {
     let context = app.persistence().context(context).await?;
-    Ok(context.get_path(path)?.into_os_string())
+    Ok(String::from_utf8_lossy(context.get_path(path)?.into_os_string().as_encoded_bytes()).to_string())
 }
