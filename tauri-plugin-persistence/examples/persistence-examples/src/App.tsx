@@ -1,29 +1,55 @@
-import { Context } from "tauri-plugin-persistence-api";
-import "./App.css";
+import { Context, Database } from "tauri-plugin-persistence-api";
 import { useState } from "react";
+import "@mantine/core/styles.css";
+import {
+    Button,
+    Group,
+    MantineProvider,
+    Stack,
+    TextInput,
+} from "@mantine/core";
+import { assert_result, TestResult } from "./util";
 
-async function runTestsAtPath(path: string): Promise<{
-    basePath: string;
-    tests: { [key: string]: true | string };
-}> {
-    let contextResult = await Context.open("TEST", path);
-    let context: Context;
+async function runTests(
+    path: string
+): Promise<{ path: string; tests: { [key: string]: string | boolean } }> {
+    const contextResult = await Context.open("test_context", path);
     if (contextResult.error()) {
         return {
-            basePath: "",
-            tests: { createContext: JSON.stringify(contextResult.error()) },
+            path: "",
+            tests: { contextCreation: JSON.stringify(contextResult.error()) },
         };
-    } else {
-        context = contextResult.data() as Context;
     }
 
-    const tests: { [key: string]: true | string } = {};
-    tests.createContext = true;
+    const context = contextResult.data() as Context;
+    const tests: { [key: string]: string | boolean } = {};
+    const pathResult = await context.get_base_path();
+    const resolvedPath = pathResult.data() ?? "";
+    tests.contextCreation = true;
+    tests.contextPathResolution = assert_result(pathResult);
+    tests.specificPathResolution = assert_result(
+        await context.get_absolute_path_to("test.db")
+    );
 
-    const basePath = (await context.get_base_path()).ok_or("");
-    tests.resolveBasePath = basePath === "" ? "Path resolution error" : true;
+    const databaseResult = await context.database("test_db", "test.db");
 
-    return { basePath, tests };
+    tests.databaseCreation = assert_result(databaseResult);
+
+    if (databaseResult.data()) {
+        const db = databaseResult.data() as Database;
+        const collection = db.collection<{ _id: string; value: string }>(
+            "test_collection"
+        );
+        tests.databaseInsert = assert_result(
+            await collection.insert({ _id: "TEST_ID", value: "test_value" })
+        );
+        tests.databaseCount = assert_result(
+            await collection.count_documents(),
+            (v) => (v >= 1 ? true : "Item was not inserted.")
+        );
+    }
+
+    return { path: resolvedPath, tests };
 }
 
 function App() {
@@ -31,32 +57,47 @@ function App() {
         "../../../../contexts/testing"
     );
     const [results, setResults] = useState<{
-        basePath: string;
-        tests: { [key: string]: true | string };
-    }>({ basePath: "", tests: {} });
-    console.log(results);
+        path: string;
+        tests: { [key: string]: string | boolean };
+    }>({ path: "", tests: {} });
+
     return (
-        <>
-            <div>
-                <span>
-                    <input
+        <MantineProvider defaultColorScheme="dark">
+            <Stack gap="sm" p="sm">
+                <Group gap="sm" wrap="nowrap" align="end">
+                    <TextInput
+                        size="md"
+                        label="Context path"
                         value={selectedPath}
                         onChange={(e) => setSelectedPath(e.target.value)}
+                        style={{ flexGrow: 1 }}
                     />
-                    <button
-                        onClick={() =>
-                            runTestsAtPath(selectedPath).then(setResults)
-                        }
+                    <Button
+                        size="md"
+                        onClick={() => runTests(selectedPath).then(setResults)}
                     >
-                        RUN AT PATH
-                    </button>
-                </span>
-            </div>
-            <p>---</p>
-            <div>Base Path: {results.basePath}</div>
-            <div>Context Creation: {results.tests.createContext}</div>
-            <div>Base Path Resolution: {results.tests.resolveBasePath}</div>
-        </>
+                        Run Tests
+                    </Button>
+                </Group>
+                <TextInput
+                    readOnly
+                    value={results.path}
+                    label="Resolved Path"
+                />
+                <TestResult name="contextCreation" tests={results.tests} />
+                <TestResult
+                    name="contextPathResolution"
+                    tests={results.tests}
+                />
+                <TestResult
+                    name="specificPathResolution"
+                    tests={results.tests}
+                />
+                <TestResult name="databaseCreation" tests={results.tests} />
+                <TestResult name="databaseInsert" tests={results.tests} />
+                <TestResult name="databaseCount" tests={results.tests} />
+            </Stack>
+        </MantineProvider>
     );
 }
 

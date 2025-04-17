@@ -58,7 +58,8 @@ impl<R: Runtime> Context<R> {
             .base_path()
             .canonicalize().or(Err(crate::Error::invalid_path(path.as_ref())))?
             .join(&resolved);
-        if !joined.starts_with(resolved) {
+
+        if !joined.starts_with(self.base_path_canonicalized()?) {
             return Err(crate::Error::path_escapes_context(path.as_ref()));
         }
 
