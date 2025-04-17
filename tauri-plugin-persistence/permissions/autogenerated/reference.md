@@ -4,7 +4,10 @@ Default permissions for the plugin
 
 #### This default permission set includes the following:
 
-- `allow-ping`
+- `allow-context`
+- `allow-database-operations`
+- `allow-file-operations`
+- `allow-fs-operations`
 
 ## Permission Table
 
@@ -668,32 +671,6 @@ Denies the get_context_base_path command without any pre-configured scope.
 <tr>
 <td>
 
-`persistence:allow-ping`
-
-</td>
-<td>
-
-Enables the ping command without any pre-configured scope.
-
-</td>
-</tr>
-
-<tr>
-<td>
-
-`persistence:deny-ping`
-
-</td>
-<td>
-
-Denies the ping command without any pre-configured scope.
-
-</td>
-</tr>
-
-<tr>
-<td>
-
 `persistence:allow-remove-directory`
 
 </td>
@@ -739,6 +716,45 @@ Enables the remove_file command without any pre-configured scope.
 <td>
 
 Denies the remove_file command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`persistence:allow-database-operations`
+
+</td>
+<td>
+
+Allows database operations
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`persistence:allow-file-operations`
+
+</td>
+<td>
+
+Allows interactions with FileHandles
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`persistence:allow-fs-operations`
+
+</td>
+<td>
+
+Allows more direct operations on the filesystem and surrounding context.
 
 </td>
 </tr>

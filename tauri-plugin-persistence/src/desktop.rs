@@ -18,7 +18,7 @@ pub struct Persistence<R: Runtime>(AppHandle<R>);
 
 impl<R: Runtime> Persistence<R> {
     fn contexts(&self) -> State<'_, PluginState> {
-        self.0.state::<PluginState>()
+        self.0.state::<PluginState>().clone()
     }
 
     fn handle(&self) -> AppHandle<R> {
@@ -28,8 +28,9 @@ impl<R: Runtime> Persistence<R> {
     pub async fn open_context(&self, name: impl AsRef<str>, path: impl AsRef<str>) -> crate::Result<crate::Context<R>> {
         let ctx = self.contexts();
         let resolved_path = std::path::PathBuf::from_str(path.as_ref()).or(Err(crate::Error::invalid_path(path.as_ref())))?;
+        let mut contexts = ctx.lock().await;
 
-        if let Some(ctx) = self.contexts().lock().await.get(&name.as_ref().to_string()) {
+        if let Some(ctx) = contexts.get(&name.as_ref().to_string()) {
             if ctx.root_path == path.as_ref().to_string() {
                 Ok(crate::Context::<R>::create(self.handle(), name.as_ref().to_string(), path.as_ref().to_string()))
             } else {
@@ -38,7 +39,6 @@ impl<R: Runtime> Persistence<R> {
         } else {
             if resolved_path.exists() {
                 if resolved_path.is_dir() {
-                    let mut contexts = ctx.lock().await;
                     let _ = contexts.insert(name.as_ref().to_string(), ContextState {name: name.as_ref().to_string(), root_path: path.as_ref().to_string(), databases: Arc::new(Mutex::new(HashMap::new())), files: Arc::new(Mutex::new(HashMap::new()))});
                     Ok(crate::Context::<R>::create(self.handle(), name.as_ref().to_string(), path.as_ref().to_string()))
                 } else {
@@ -46,7 +46,6 @@ impl<R: Runtime> Persistence<R> {
                 }
             } else {
                 tokio::fs::create_dir_all(resolved_path).await.or_else(|e| Err(crate::Error::open_context(name.as_ref(), path.as_ref(), format!("Failed to create context directory: {e:?}"))))?;
-                let mut contexts = ctx.lock().await;
                 let _ = contexts.insert(name.as_ref().to_string(), ContextState {name: name.as_ref().to_string(), root_path: path.as_ref().to_string(), databases: Arc::new(Mutex::new(HashMap::new())), files: Arc::new(Mutex::new(HashMap::new()))});
                 Ok(crate::Context::<R>::create(self.handle(), name.as_ref().to_string(), path.as_ref().to_string()))
             }

@@ -1,0 +1,10 @@
+[[set]]
+identifier = "allow-fs-operations"
+description = "Allows more direct operations on the filesystem and surrounding context."
+permissions = [
+    "allow-get-context-base-path",
+    "allow-get-absolute-path-to",
+    "allow-create-directory",
+    "allow-remove-directory",
+    "allow-remove-file",
+]

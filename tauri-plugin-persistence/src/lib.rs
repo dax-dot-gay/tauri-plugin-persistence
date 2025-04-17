@@ -29,7 +29,7 @@ impl<R: Runtime, T: Manager<R>> crate::PersistenceExt<R> for T {
 
 fn builder() -> tauri_specta::Builder<tauri::Wry> {
     tauri_specta::Builder::<tauri::Wry>::new()
-    .plugin_name("plugin-persistence")
+    .plugin_name("persistence")
     .commands(collect_commands![
         commands::context,
         commands::database,

@@ -108,11 +108,11 @@ impl<R: Runtime> Context<R> {
     }
 
     pub(crate) async fn databases(&self) -> Arc<Mutex<HashMap<String, ContextDB>>> {
-        self.state().await.databases
+        self.state().await.databases.clone()
     }
 
     pub(crate) async fn files(&self) -> Arc<Mutex<HashMap<bson::Uuid, ContextFileHandle>>> {
-        self.state().await.files
+        self.state().await.files.clone()
     }
 
     pub async fn open_database(

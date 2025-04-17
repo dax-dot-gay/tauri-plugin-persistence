@@ -7,7 +7,7 @@
 export const commands = {
 async context(context: ContextSpecifier) : Promise<Result<ContextInfo, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|context", { context }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|context", { context }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -15,7 +15,7 @@ async context(context: ContextSpecifier) : Promise<Result<ContextInfo, Error>> {
 },
 async database(context: ContextSpecifier, database: DatabaseSpecifier) : Promise<Result<DatabaseInfo, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|database", { context, database }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|database", { context, database }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -23,7 +23,7 @@ async database(context: ContextSpecifier, database: DatabaseSpecifier) : Promise
 },
 async fileHandle(context: ContextSpecifier, fileHandle: FileHandleSpecifier) : Promise<Result<FileHandleInfo, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|file_handle", { context, fileHandle }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|file_handle", { context, fileHandle }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -31,7 +31,7 @@ async fileHandle(context: ContextSpecifier, fileHandle: FileHandleSpecifier) : P
 },
 async databaseGetCollections(context: ContextSpecifier, database: DatabaseSpecifier) : Promise<Result<string[], Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|database_get_collections", { context, database }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|database_get_collections", { context, database }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -39,7 +39,7 @@ async databaseGetCollections(context: ContextSpecifier, database: DatabaseSpecif
 },
 async databaseClose(context: ContextSpecifier, database: DatabaseSpecifier) : Promise<Result<null, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|database_close", { context, database }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|database_close", { context, database }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -47,7 +47,7 @@ async databaseClose(context: ContextSpecifier, database: DatabaseSpecifier) : Pr
 },
 async databaseStartTransaction(context: ContextSpecifier, database: DatabaseSpecifier) : Promise<Result<string, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|database_start_transaction", { context, database }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|database_start_transaction", { context, database }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -55,7 +55,7 @@ async databaseStartTransaction(context: ContextSpecifier, database: DatabaseSpec
 },
 async databaseCommitTransaction(context: ContextSpecifier, database: DatabaseSpecifier, transaction: string) : Promise<Result<null, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|database_commit_transaction", { context, database, transaction }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|database_commit_transaction", { context, database, transaction }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -63,7 +63,7 @@ async databaseCommitTransaction(context: ContextSpecifier, database: DatabaseSpe
 },
 async databaseRollbackTransaction(context: ContextSpecifier, database: DatabaseSpecifier, transaction: string) : Promise<Result<null, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|database_rollback_transaction", { context, database, transaction }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|database_rollback_transaction", { context, database, transaction }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -71,7 +71,7 @@ async databaseRollbackTransaction(context: ContextSpecifier, database: DatabaseS
 },
 async collectionCountDocuments(context: ContextSpecifier, database: DatabaseSpecifier, collection: CollectionSpecifier) : Promise<Result<number, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|collection_count_documents", { context, database, collection }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|collection_count_documents", { context, database, collection }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -79,7 +79,7 @@ async collectionCountDocuments(context: ContextSpecifier, database: DatabaseSpec
 },
 async collectionUpdateDocuments(context: ContextSpecifier, database: DatabaseSpecifier, collection: CollectionSpecifier, query: null | boolean | number | string | JsonValue[] | Partial<{ [key in string]: JsonValue }>, update: null | boolean | number | string | JsonValue[] | Partial<{ [key in string]: JsonValue }>, operations: OperationCount, upsert: boolean) : Promise<Result<UpdateResult, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|collection_update_documents", { context, database, collection, query, update, operations, upsert }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|collection_update_documents", { context, database, collection, query, update, operations, upsert }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -87,7 +87,7 @@ async collectionUpdateDocuments(context: ContextSpecifier, database: DatabaseSpe
 },
 async collectionDeleteDocuments(context: ContextSpecifier, database: DatabaseSpecifier, collection: CollectionSpecifier, query: null | boolean | number | string | JsonValue[] | Partial<{ [key in string]: JsonValue }>, operations: OperationCount) : Promise<Result<number, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|collection_delete_documents", { context, database, collection, query, operations }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|collection_delete_documents", { context, database, collection, query, operations }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -95,7 +95,7 @@ async collectionDeleteDocuments(context: ContextSpecifier, database: DatabaseSpe
 },
 async collectionCreateIndex(context: ContextSpecifier, database: DatabaseSpecifier, collection: CollectionSpecifier, keys: null | boolean | number | string | JsonValue[] | Partial<{ [key in string]: JsonValue }>, name: string | null, unique: boolean | null) : Promise<Result<null, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|collection_create_index", { context, database, collection, keys, name, unique }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|collection_create_index", { context, database, collection, keys, name, unique }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -103,7 +103,7 @@ async collectionCreateIndex(context: ContextSpecifier, database: DatabaseSpecifi
 },
 async collectionDropIndex(context: ContextSpecifier, database: DatabaseSpecifier, collection: CollectionSpecifier, name: string) : Promise<Result<null, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|collection_drop_index", { context, database, collection, name }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|collection_drop_index", { context, database, collection, name }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -111,7 +111,7 @@ async collectionDropIndex(context: ContextSpecifier, database: DatabaseSpecifier
 },
 async collectionDrop(context: ContextSpecifier, database: DatabaseSpecifier, collection: CollectionSpecifier) : Promise<Result<null, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|collection_drop", { context, database, collection }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|collection_drop", { context, database, collection }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -119,7 +119,7 @@ async collectionDrop(context: ContextSpecifier, database: DatabaseSpecifier, col
 },
 async collectionInsertDocuments(context: ContextSpecifier, database: DatabaseSpecifier, collection: CollectionSpecifier, documents: (null | boolean | number | string | JsonValue[] | Partial<{ [key in string]: JsonValue }>)[]) : Promise<Result<Partial<{ [key in number]: null | boolean | number | string | JsonValue[] | Partial<{ [key in string]: JsonValue }> }>, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|collection_insert_documents", { context, database, collection, documents }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|collection_insert_documents", { context, database, collection, documents }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -127,7 +127,7 @@ async collectionInsertDocuments(context: ContextSpecifier, database: DatabaseSpe
 },
 async collectionFindManyDocuments(context: ContextSpecifier, database: DatabaseSpecifier, collection: CollectionSpecifier, filter: null | boolean | number | string | JsonValue[] | Partial<{ [key in string]: JsonValue }>, skip: number | null, limit: number | null, sort: null | boolean | number | string | JsonValue[] | Partial<{ [key in string]: JsonValue }> | null) : Promise<Result<(null | boolean | number | string | JsonValue[] | Partial<{ [key in string]: JsonValue }>)[], Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|collection_find_many_documents", { context, database, collection, filter, skip, limit, sort }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|collection_find_many_documents", { context, database, collection, filter, skip, limit, sort }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -135,7 +135,7 @@ async collectionFindManyDocuments(context: ContextSpecifier, database: DatabaseS
 },
 async collectionFindOneDocument(context: ContextSpecifier, database: DatabaseSpecifier, collection: CollectionSpecifier, filter: null | boolean | number | string | JsonValue[] | Partial<{ [key in string]: JsonValue }>) : Promise<Result<null | boolean | number | string | JsonValue[] | Partial<{ [key in string]: JsonValue }> | null, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|collection_find_one_document", { context, database, collection, filter }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|collection_find_one_document", { context, database, collection, filter }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -143,7 +143,7 @@ async collectionFindOneDocument(context: ContextSpecifier, database: DatabaseSpe
 },
 async fileClose(context: ContextSpecifier, fileHandle: FileHandleSpecifier) : Promise<Result<null, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|file_close", { context, fileHandle }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|file_close", { context, fileHandle }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -151,7 +151,7 @@ async fileClose(context: ContextSpecifier, fileHandle: FileHandleSpecifier) : Pr
 },
 async fileWriteText(context: ContextSpecifier, fileHandle: FileHandleSpecifier, data: string) : Promise<Result<null, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|file_write_text", { context, fileHandle, data }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|file_write_text", { context, fileHandle, data }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -159,7 +159,7 @@ async fileWriteText(context: ContextSpecifier, fileHandle: FileHandleSpecifier, 
 },
 async fileWriteBytes(context: ContextSpecifier, fileHandle: FileHandleSpecifier, data: number[]) : Promise<Result<null, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|file_write_bytes", { context, fileHandle, data }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|file_write_bytes", { context, fileHandle, data }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -167,7 +167,7 @@ async fileWriteBytes(context: ContextSpecifier, fileHandle: FileHandleSpecifier,
 },
 async fileReadText(context: ContextSpecifier, fileHandle: FileHandleSpecifier, size: number | null) : Promise<Result<string, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|file_read_text", { context, fileHandle, size }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|file_read_text", { context, fileHandle, size }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -175,7 +175,7 @@ async fileReadText(context: ContextSpecifier, fileHandle: FileHandleSpecifier, s
 },
 async fileReadBytes(context: ContextSpecifier, fileHandle: FileHandleSpecifier, size: number | null) : Promise<Result<number[], Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|file_read_bytes", { context, fileHandle, size }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|file_read_bytes", { context, fileHandle, size }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -183,7 +183,7 @@ async fileReadBytes(context: ContextSpecifier, fileHandle: FileHandleSpecifier, 
 },
 async getContextBasePath(context: ContextSpecifier) : Promise<Result<string, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|get_context_base_path", { context }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|get_context_base_path", { context }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -191,7 +191,7 @@ async getContextBasePath(context: ContextSpecifier) : Promise<Result<string, Err
 },
 async getAbsolutePathTo(context: ContextSpecifier, path: string) : Promise<Result<string, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|get_absolute_path_to", { context, path }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|get_absolute_path_to", { context, path }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -199,7 +199,7 @@ async getAbsolutePathTo(context: ContextSpecifier, path: string) : Promise<Resul
 },
 async createDirectory(context: ContextSpecifier, path: string, parents: boolean) : Promise<Result<null, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|create_directory", { context, path, parents }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|create_directory", { context, path, parents }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -207,7 +207,7 @@ async createDirectory(context: ContextSpecifier, path: string, parents: boolean)
 },
 async removeDirectory(context: ContextSpecifier, path: string) : Promise<Result<null, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|remove_directory", { context, path }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|remove_directory", { context, path }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
@@ -215,7 +215,7 @@ async removeDirectory(context: ContextSpecifier, path: string) : Promise<Result<
 },
 async removeFile(context: ContextSpecifier, path: string) : Promise<Result<null, Error>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("plugin:plugin-persistence|remove_file", { context, path }) };
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|remove_file", { context, path }) };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };

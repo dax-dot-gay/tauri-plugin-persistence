@@ -1,0 +1,20 @@
+[[set]]
+identifier = "allow-database-operations"
+description = "Allows database operations"
+permissions = [
+    "allow-database",
+    "allow-database-get-collections",
+    "allow-database-close",
+    "allow-database-start-transaction",
+    "allow-database-commit-transaction",
+    "allow-database-rollback-transaction",
+    "allow-collection-count-documents",
+    "allow-collection-update-documents",
+    "allow-collection-delete-documents",
+    "allow-collection-create-index",
+    "allow-collection-drop-index",
+    "allow-collection-drop",
+    "allow-collection-insert-documents",
+    "allow-collection-find-many-documents",
+    "allow-collection-find-one-document",
+]

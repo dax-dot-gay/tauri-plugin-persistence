@@ -6,8 +6,8 @@ use super::state::FileHandleMode;
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
 #[serde(untagged)]
 pub enum ContextSpecifier {
-    Aliased { alias: String },
     Direct { alias: String, path: String },
+    Aliased { alias: String },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
@@ -19,8 +19,8 @@ pub struct ContextInfo {
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
 #[serde(untagged)]
 pub enum DatabaseSpecifier {
-    Aliased { alias: String },
     Direct { alias: String, path: String },
+    Aliased { alias: String },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
@@ -46,13 +46,13 @@ pub struct FileHandleInfo {
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
 #[serde(untagged)]
 pub enum CollectionSpecifier {
-    Global {
-        name: String,
-    },
     Transaction {
         transaction: bson::Uuid,
         name: String,
     },
+    Global {
+        name: String,
+    }
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]

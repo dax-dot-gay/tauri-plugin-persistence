@@ -1,0 +1,11 @@
+[[set]]
+identifier = "allow-file-operations"
+description = "Allows interactions with FileHandles"
+permissions = [
+    "allow-file-handle",
+    "allow-file-close",
+    "allow-file-write-text",
+    "allow-file-write-bytes",
+    "allow-file-read-text",
+    "allow-file-read-bytes",
+]
