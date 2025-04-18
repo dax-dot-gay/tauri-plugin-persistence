@@ -7,6 +7,8 @@ import {
     FileHandleSpecifier,
     JsonValue,
     OperationCount,
+    PathInformation,
+    PathMetadata,
     UpdateResult,
 } from "./commands";
 import { Res, Result } from "./util";
@@ -73,6 +75,14 @@ export class Context {
 
     public async get_file_handle(id: string): Res<FileHandle> {
         return await FileHandle.get(this, id);
+    }
+
+    public async get_file_metadata(path: string): Res<PathMetadata> {
+        return Result.wrap(await commands.fileMetadata(this.specifier, path));
+    }
+
+    public async list_directory(path: string): Res<PathInformation[]> {
+        return Result.wrap(await commands.listDirectory(this.specifier, path));
     }
 }
 

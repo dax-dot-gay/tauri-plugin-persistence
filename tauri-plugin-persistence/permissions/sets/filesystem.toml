@@ -7,4 +7,6 @@ permissions = [
     "allow-create-directory",
     "allow-remove-directory",
     "allow-remove-file",
+    "allow-file-metadata",
+    "allow-list-directory"
 ]

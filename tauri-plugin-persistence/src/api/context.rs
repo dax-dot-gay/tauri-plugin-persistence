@@ -6,7 +6,7 @@ use serde::{de::DeserializeOwned, Serialize};
 use tauri::{AppHandle, Manager, Runtime};
 use tokio::{fs::{File, OpenOptions}, sync::Mutex};
 
-use super::state::{ContextDB, ContextFileHandle, ContextState, FileHandleMode, PluginState};
+use super::{state::{ContextDB, ContextFileHandle, ContextState, FileHandleMode, PluginState}, types::{PathInformation, PathMetadata}};
 
 pub struct Context<R: Runtime> {
     handle: Arc<AppHandle<R>>,
@@ -96,6 +96,33 @@ impl<R: Runtime> Context<R> {
         }
         tokio::fs::remove_file(resolved).await.or_else(|error| Err(crate::Error::filesystem("REMOVE_FILE", error.to_string())))?;
         Ok(())
+    }
+
+    pub async fn file_metadata(&self, path: impl AsRef<str>) -> crate::Result<PathMetadata> {
+        let resolved = self.get_path(path)?;
+        match tokio::fs::metadata(resolved).await {
+            Ok(meta) => Ok(PathMetadata::from(meta)),
+            Err(e) => Err(crate::Error::filesystem("FILE_METADATA", e.to_string()))
+        }
+    }
+
+    pub async fn list_directory(&self, path: impl AsRef<str>) -> crate::Result<Vec<PathInformation>> {
+        let resolved = self.get_path(path)?;
+        if !resolved.is_dir() {
+            return Err(crate::Error::filesystem("LIST_DIRECTORY", "Specified path is not a directory or does not exist."));
+        }
+
+        match tokio::fs::read_dir(resolved).await {
+            Ok(mut results) => {
+                let mut infos: Vec<PathInformation> = Vec::new();
+                while let Ok(Some(info)) = results.next_entry().await {
+                    infos.push(PathInformation::from(info));
+                }
+
+                Ok(infos)
+            },
+            Err(e) => Err(crate::Error::filesystem("LIST_DIRECTORY", e.to_string()))
+        }
     }
 
     pub(crate) async fn state(&self) -> ContextState {

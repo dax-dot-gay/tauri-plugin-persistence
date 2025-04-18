@@ -7,8 +7,7 @@ use crate::{
     api::types::{
         CollectionSpecifier, ContextInfo, ContextSpecifier, DatabaseInfo, DatabaseSpecifier,
         FileHandleInfo, FileHandleSpecifier, OperationCount, UpdateResult,
-    },
-    PersistenceExt,
+    }, types::{PathInformation, PathMetadata}, PersistenceExt
 };
 
 // Info commands
@@ -441,4 +440,26 @@ pub async fn get_absolute_path_to(
 ) -> crate::Result<String> {
     let context = app.persistence().context(context).await?;
     Ok(String::from_utf8_lossy(context.get_path(path)?.into_os_string().as_encoded_bytes()).to_string())
+}
+
+#[tauri::command]
+#[specta::specta]
+pub async fn file_metadata(
+    app: tauri::AppHandle,
+    context: ContextSpecifier,
+    path: String
+) -> crate::Result<PathMetadata> {
+    let context = app.persistence().context(context).await?;
+    context.file_metadata(path).await
+}
+
+#[tauri::command]
+#[specta::specta]
+pub async fn list_directory(
+    app: tauri::AppHandle,
+    context: ContextSpecifier,
+    path: String
+) -> crate::Result<Vec<PathInformation>> {
+    let context = app.persistence().context(context).await?;
+    context.list_directory(path).await
 }

@@ -57,7 +57,9 @@ fn builder() -> tauri_specta::Builder<tauri::Wry> {
         commands::get_absolute_path_to,
         commands::create_directory,
         commands::remove_directory,
-        commands::remove_file
+        commands::remove_file,
+        commands::file_metadata,
+        commands::list_directory
     ])
 }
 

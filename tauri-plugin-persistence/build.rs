@@ -26,6 +26,8 @@ const COMMANDS: &[&str] = &[
     "create_directory",
     "remove_directory",
     "remove_file",
+    "file_metadata",
+    "list_directory"
 ];
 
 fn main() {

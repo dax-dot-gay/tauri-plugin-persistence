@@ -220,6 +220,22 @@ async removeFile(context: ContextSpecifier, path: string) : Promise<Result<null,
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+async fileMetadata(context: ContextSpecifier, path: string) : Promise<Result<PathMetadata, Error>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|file_metadata", { context, path }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async listDirectory(context: ContextSpecifier, path: string) : Promise<Result<PathInformation[], Error>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|list_directory", { context, path }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -244,6 +260,9 @@ export type FileHandleMode = { mode: "create"; new: boolean; overwrite: boolean 
 export type FileHandleSpecifier = { id: string } | { path: string; mode: FileHandleMode }
 export type JsonValue = null | boolean | number | string | JsonValue[] | Partial<{ [key in string]: JsonValue }>
 export type OperationCount = "one" | "many"
+export type PathFileType = "directory" | "file" | "symlink"
+export type PathInformation = { file_name: string; absolute_path: string; media_type: string }
+export type PathMetadata = { file_type: PathFileType; size: number; last_modified: string | null; last_accessed: string | null; created: string | null }
 export type UpdateResult = { matched: number; modified: number }
 
 /** tauri-specta globals **/

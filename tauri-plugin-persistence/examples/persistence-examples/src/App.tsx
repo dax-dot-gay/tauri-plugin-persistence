@@ -47,6 +47,14 @@ async function runTests(
             await collection.count_documents(),
             (v) => (v >= 1 ? true : "Item was not inserted.")
         );
+        tests.databaseFind = assert_result(
+            await collection.find_one({ _id: "TEST_ID" }),
+            (v) => (v?.value == "test_value" ? true : "Item validation failed")
+        );
+        tests.databaseRemove = assert_result(
+            await collection.delete_one({ _id: "TEST_ID" }),
+            (v) => (v ? true : "Item deletion failed")
+        );
     }
 
     return { path: resolvedPath, tests };
@@ -96,6 +104,7 @@ function App() {
                 <TestResult name="databaseCreation" tests={results.tests} />
                 <TestResult name="databaseInsert" tests={results.tests} />
                 <TestResult name="databaseCount" tests={results.tests} />
+                <TestResult name="databaseFind" tests={results.tests} />
             </Stack>
         </MantineProvider>
     );

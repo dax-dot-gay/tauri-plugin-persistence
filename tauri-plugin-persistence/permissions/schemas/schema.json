@@ -523,6 +523,18 @@
           "markdownDescription": "Denies the file_handle command without any pre-configured scope."
         },
         {
+          "description": "Enables the file_metadata command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-file-metadata",
+          "markdownDescription": "Enables the file_metadata command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the file_metadata command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-file-metadata",
+          "markdownDescription": "Denies the file_metadata command without any pre-configured scope."
+        },
+        {
           "description": "Enables the file_read_bytes command without any pre-configured scope.",
           "type": "string",
           "const": "allow-file-read-bytes",
@@ -595,6 +607,18 @@
           "markdownDescription": "Denies the get_context_base_path command without any pre-configured scope."
         },
         {
+          "description": "Enables the list_directory command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-list-directory",
+          "markdownDescription": "Enables the list_directory command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the list_directory command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-list-directory",
+          "markdownDescription": "Denies the list_directory command without any pre-configured scope."
+        },
+        {
           "description": "Enables the remove_directory command without any pre-configured scope.",
           "type": "string",
           "const": "allow-remove-directory",
@@ -637,10 +661,10 @@
           "markdownDescription": "Allows interactions with FileHandles\n#### This permission set includes:\n\n- `allow-file-handle`\n- `allow-file-close`\n- `allow-file-write-text`\n- `allow-file-write-bytes`\n- `allow-file-read-text`\n- `allow-file-read-bytes`"
         },
         {
-          "description": "Allows more direct operations on the filesystem and surrounding context.\n#### This permission set includes:\n\n- `allow-get-context-base-path`\n- `allow-get-absolute-path-to`\n- `allow-create-directory`\n- `allow-remove-directory`\n- `allow-remove-file`",
+          "description": "Allows more direct operations on the filesystem and surrounding context.\n#### This permission set includes:\n\n- `allow-get-context-base-path`\n- `allow-get-absolute-path-to`\n- `allow-create-directory`\n- `allow-remove-directory`\n- `allow-remove-file`\n- `allow-file-metadata`\n- `allow-list-directory`",
           "type": "string",
           "const": "allow-fs-operations",
-          "markdownDescription": "Allows more direct operations on the filesystem and surrounding context.\n#### This permission set includes:\n\n- `allow-get-context-base-path`\n- `allow-get-absolute-path-to`\n- `allow-create-directory`\n- `allow-remove-directory`\n- `allow-remove-file`"
+          "markdownDescription": "Allows more direct operations on the filesystem and surrounding context.\n#### This permission set includes:\n\n- `allow-get-context-base-path`\n- `allow-get-absolute-path-to`\n- `allow-create-directory`\n- `allow-remove-directory`\n- `allow-remove-file`\n- `allow-file-metadata`\n- `allow-list-directory`"
         }
       ]
     }

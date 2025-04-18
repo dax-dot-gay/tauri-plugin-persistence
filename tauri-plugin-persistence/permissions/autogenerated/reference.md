@@ -515,6 +515,32 @@ Denies the file_handle command without any pre-configured scope.
 <tr>
 <td>
 
+`persistence:allow-file-metadata`
+
+</td>
+<td>
+
+Enables the file_metadata command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`persistence:deny-file-metadata`
+
+</td>
+<td>
+
+Denies the file_metadata command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
 `persistence:allow-file-read-bytes`
 
 </td>
@@ -664,6 +690,32 @@ Enables the get_context_base_path command without any pre-configured scope.
 <td>
 
 Denies the get_context_base_path command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`persistence:allow-list-directory`
+
+</td>
+<td>
+
+Enables the list_directory command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`persistence:deny-list-directory`
+
+</td>
+<td>
+
+Denies the list_directory command without any pre-configured scope.
 
 </td>
 </tr>
