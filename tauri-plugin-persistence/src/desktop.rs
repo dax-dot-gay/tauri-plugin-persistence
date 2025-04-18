@@ -25,6 +25,8 @@ impl<R: Runtime> Persistence<R> {
         self.0.clone()
     }
 
+    /// Opens a context at a path, or returns the existing context if it's already open at that path.
+    /// Attmepting to open an existing context at a new path will fail.
     pub async fn open_context(&self, name: impl AsRef<str>, path: impl AsRef<str>) -> crate::Result<crate::Context<R>> {
         let ctx = self.contexts();
         let resolved_path = std::path::PathBuf::from_str(path.as_ref()).or(Err(crate::Error::invalid_path(path.as_ref())))?;
@@ -52,6 +54,7 @@ impl<R: Runtime> Persistence<R> {
         }
     }
 
+    /// Returns an already-open context
     pub async fn aliased_context(&self, name: impl AsRef<str>) -> crate::Result<crate::Context<R>> {
         if let Some(ctx) = self.contexts().lock().await.get(&name.as_ref().to_string()) {
             Ok(crate::Context::<R>::create(self.handle(), name.as_ref().to_string(), ctx.root_path.clone()))
@@ -60,6 +63,7 @@ impl<R: Runtime> Persistence<R> {
         }
     }
 
+    /// Returns a context based on a [ContextSpecifier]. This abstracts [Persistence::open_context] and [Persistence::aliased_context]
     pub async fn context(&self, context: ContextSpecifier) -> crate::Result<crate::Context<R>> {
         match context {
             ContextSpecifier::Aliased { alias } => self.aliased_context(alias).await,
@@ -67,6 +71,7 @@ impl<R: Runtime> Persistence<R> {
         }
     }
 
+    /// Returns a database based on a [ContextSpecifier] and a [DatabaseSpecifier]
     pub async fn database(&self, context: ContextSpecifier, database: DatabaseSpecifier) -> crate::Result<crate::Database<R>> {
         let context = self.context(context).await?;
         match database {
@@ -75,6 +80,7 @@ impl<R: Runtime> Persistence<R> {
         }
     }
 
+    /// Returns a file handle based on a [ContextSpecifier] and a [FileHandleSpecifier]
     pub async fn file_handle(&self, context: ContextSpecifier, file_handle: FileHandleSpecifier) -> crate::Result<crate::FileHandle<R>> {
         let context = self.context(context).await?;
         match file_handle {
@@ -83,11 +89,13 @@ impl<R: Runtime> Persistence<R> {
         }
     }
 
+    /// Returns an open transaction based on a [ContextSpecifier] and a [DatabaseSpecifier], as well as the transaction ID
     pub async fn transaction(&self, context: ContextSpecifier, database: DatabaseSpecifier, transaction: bson::Uuid) -> crate::Result<crate::Transaction<R>> {
         let database = self.database(context, database).await?;
         database.get_transaction(transaction).await
     }
 
+    /// Returns a collection based on a [ContextSpecifier], [DatabaseSpecifier], and a [CollectionSpecifier]
     pub async fn collection<T: Serialize + DeserializeOwned + Sync + Send>(&self, context: ContextSpecifier, database: DatabaseSpecifier, collection: CollectionSpecifier) -> crate::Result<crate::Collection<T, R>> {
         let database = self.database(context, database).await?;
         match collection {

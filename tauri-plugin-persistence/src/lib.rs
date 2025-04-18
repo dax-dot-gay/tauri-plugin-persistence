@@ -1,3 +1,12 @@
+//! High-level abstractions for project contexts & database access for Tauri applications.
+//! 
+//! Primary features:
+//! - Database creation & management with PoloDB
+//! - Management of open file handles
+//! - Basic filesystem operations within the context
+//! - Automatic prevention of context escapes
+
+
 use std::collections::HashMap;
 use tauri::{
     plugin::{Builder, TauriPlugin},
@@ -9,15 +18,17 @@ mod commands;
 #[cfg(desktop)]
 mod desktop;
 
-pub use api::{state, Collection, Context, Database, Error, FileHandle, Result, Transaction, types};
+pub use api::{Collection, Context, Database, Error, FileHandle, Result, Transaction, types};
+pub(crate) use api::state;
 
 #[cfg(desktop)]
-use desktop::Persistence;
+pub use desktop::Persistence;
 use tauri_specta::collect_commands;
 use tokio::sync::Mutex;
 
 /// Extensions to [`tauri::App`], [`tauri::AppHandle`] and [`tauri::Window`] to access the persistence APIs.
 pub trait PersistenceExt<R: Runtime> {
+    /// Gets a reference to the [Persistence] API
     fn persistence(&self) -> &Persistence<R>;
 }
 
@@ -27,6 +38,7 @@ impl<R: Runtime, T: Manager<R>> crate::PersistenceExt<R> for T {
     }
 }
 
+#[doc(hidden)]
 fn builder() -> tauri_specta::Builder<tauri::Wry> {
     tauri_specta::Builder::<tauri::Wry>::new()
     .plugin_name("persistence")

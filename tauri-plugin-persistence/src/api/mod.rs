@@ -1,6 +1,8 @@
 mod error;
-pub mod state;
+pub(crate) mod state;
 mod context;
+
+/// Exports a reference to various utility types.
 pub mod types;
 
 pub use error::{Error, Result};

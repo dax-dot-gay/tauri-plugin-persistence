@@ -10,75 +10,122 @@ use super::state::FileHandleMode;
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
 #[serde(untagged)]
+/// A model used to specify an existing or closed context
 pub enum ContextSpecifier {
+    /// Open a new context
     Direct { alias: String, path: String },
+
+    /// Return an existing context
     Aliased { alias: String },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
+/// A model containing serializable information about a [crate::Context]
 pub struct ContextInfo {
+    /// Context name
     pub name: String,
+
+    /// Context path
     pub path: String,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
 #[serde(untagged)]
+/// A model used to specify an existing or closed database
 pub enum DatabaseSpecifier {
+    /// Open a new database
     Direct { alias: String, path: String },
+
+    /// Return an existing database
     Aliased { alias: String },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
+/// A model containing serializable information about a [crate::Database]
 pub struct DatabaseInfo {
+    /// Database name
     pub name: String,
+
+    /// Database path
     pub path: String,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
 #[serde(untagged)]
+/// A model used to specify an existing or closed file handle
 pub enum FileHandleSpecifier {
+    /// Return an existing file handle
     Aliased { id: bson::Uuid },
+
+    /// Open a new file handle
     Direct { path: String, mode: FileHandleMode },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
+/// A model containing serializable information about a [crate::FileHandle]
 pub struct FileHandleInfo {
+    /// File handle ID
     pub id: bson::Uuid,
+
+    /// File handle path
     pub path: String,
+
+    /// Open mode
     pub mode: FileHandleMode,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
 #[serde(untagged)]
+/// A model used to specify a collection
 pub enum CollectionSpecifier {
+    /// Open a collection in a transaction
     Transaction {
+        /// Transaction ID
         transaction: bson::Uuid,
+
+        /// Collection name
         name: String,
     },
+
+    /// Open a non-transacted collection
     Global {
+
+        /// Collection name
         name: String,
     }
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
+/// A model containing serializable information about a [crate::Collection]
 pub struct CollectionInfo {
+    /// Database info
     pub database: DatabaseInfo,
+
+    /// Collection name
     pub name: String,
+
+    /// Transaction ID
     pub transaction_id: Option<bson::Uuid>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
 #[serde(rename_all = "snake_case")]
+/// Whether to do one operation or multiple (in a database context)
 pub enum OperationCount {
+    ///
     One,
+    ///
     Many,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
+/// Serializable version of [polodb_core::results::UpdateResult]
 pub struct UpdateResult {
     #[specta(type = u32)]
+    /// How many documents matched the filter
     pub matched: u64,
     #[specta(type = u32)]
+    /// How many documents were updated
     pub modified: u64,
 }
 
@@ -92,6 +139,7 @@ impl From<polodb_core::results::UpdateResult> for UpdateResult {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
+/// Specta version of [bson::Bson]
 pub struct JsonBson(bson::Bson);
 
 impl Type for JsonBson {
@@ -116,6 +164,7 @@ impl Into<bson::Bson> for JsonBson {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
+/// Specta version of [bson::Document]
 pub struct JsonDocument(bson::Document);
 
 impl Type for JsonDocument {
@@ -141,9 +190,13 @@ impl Into<bson::Document> for JsonDocument {
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
 #[serde(rename_all = "snake_case")]
+/// Description of the type of a file/directory/symlink
 pub enum PathFileType {
+    ///
     Directory,
+    ///
     File,
+    ///
     Symlink
 }
 
@@ -160,6 +213,7 @@ impl From<FileType> for PathFileType {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
+/// File or folder metadata
 pub struct PathMetadata {
     pub file_type: PathFileType,
     pub size: u64,
@@ -181,6 +235,7 @@ impl From<Metadata> for PathMetadata {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Type)]
+/// General info about a path
 pub struct PathInformation {
     pub file_name: String,
     pub absolute_path: String,

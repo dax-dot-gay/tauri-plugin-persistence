@@ -7,6 +7,7 @@ use tokio::{fs::{File, OpenOptions}, sync::Mutex};
 
 #[derive(Clone)]
 pub struct ContextDB {
+    #[allow(dead_code)]
     pub name: String,
     pub path: String,
     pub database: Arc<Mutex<Database>>,
@@ -93,6 +94,7 @@ pub struct ContextFileHandle {
 
 #[derive(Clone)]
 pub struct ContextState {
+    #[allow(dead_code)]
     pub name: String,
     pub root_path: String,
     pub databases: Arc<Mutex<HashMap<String, ContextDB>>>,
