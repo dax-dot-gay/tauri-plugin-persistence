@@ -12,7 +12,7 @@ repository = "https://github.com/dax-dot-gay/tauri-plugin-persistence"
 homepage = "https://github.com/dax-dot-gay/tauri-plugin-persistence"
 keywords = ["tauri", "polodb", "tauri-plugin", "native-apps"]
 categories = ["asynchronous", "web-programming", "database", "filesystem"]
-readme = "../README.md"
+readme = "README.md"
 
 [dependencies]
 tauri = { version = "2.4.1" }
