@@ -1,4 +1,4 @@
-import { Context, Database } from "tauri-plugin-persistence-api";
+import { Context, Database, FileHandle } from "tauri-plugin-persistence-api";
 import { useState } from "react";
 import "@mantine/core/styles.css";
 import {
@@ -57,6 +57,34 @@ async function runTests(
         );
     }
 
+    const filehandleResult = await context.open_file("test_file.txt", {
+        mode: "create",
+        new: true,
+        overwrite: true,
+    });
+    tests.fileCreation = assert_result(filehandleResult);
+
+    if (filehandleResult.data()) {
+        const file = filehandleResult.data() as FileHandle;
+        tests.writeToFile = assert_result(
+            await file.write_text("TEST FILE DATA")
+        );
+        tests.closeFile = assert_result(await file.close());
+    }
+
+    const fileReadResult = await context.open_file("test_file.txt", {
+        mode: "read",
+    });
+    tests.fileReadOpen = assert_result(fileReadResult);
+
+    if (fileReadResult.data()) {
+        const file = fileReadResult.data() as FileHandle;
+        tests.readFile = assert_result(await file.read_text(), (r) =>
+            r === "TEST FILE DATA" ? true : "File contents do not match."
+        );
+        await file.close();
+    }
+
     return { path: resolvedPath, tests };
 }
 
@@ -105,6 +133,11 @@ function App() {
                 <TestResult name="databaseInsert" tests={results.tests} />
                 <TestResult name="databaseCount" tests={results.tests} />
                 <TestResult name="databaseFind" tests={results.tests} />
+                <TestResult name="fileCreation" tests={results.tests} />
+                <TestResult name="writeToFile" tests={results.tests} />
+                <TestResult name="closeFile" tests={results.tests} />
+                <TestResult name="fileReadOpen" tests={results.tests} />
+                <TestResult name="readFile" tests={results.tests} />
             </Stack>
         </MantineProvider>
     );
