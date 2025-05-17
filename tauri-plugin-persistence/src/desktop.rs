@@ -25,6 +25,12 @@ impl<R: Runtime> Persistence<R> {
         self.0.clone()
     }
 
+    async fn context_ids(&self) -> Vec<String> {
+        let ctx = self.contexts();
+        let contexts = ctx.lock().await;
+        contexts.keys().map(|k| k.clone()).collect()
+    }
+
     /// Opens a context at a path, or returns the existing context if it's already open at that path.
     /// Attmepting to open an existing context at a new path will fail.
     pub async fn open_context(&self, name: impl AsRef<str>, path: impl AsRef<str>) -> crate::Result<crate::Context<R>> {
@@ -105,5 +111,28 @@ impl<R: Runtime> Persistence<R> {
                 Ok(trn.collection(name))
             }
         }
+    }
+
+    /// Closes a context based on a [ContextSpecifier]
+    pub async fn close_context(&self, context: ContextSpecifier) -> crate::Result<()> {
+        let ctx = match context {
+            ContextSpecifier::Aliased { alias } => self.aliased_context(alias).await,
+            ContextSpecifier::Direct { alias, path } => self.open_context(alias, path).await
+        }?;
+        let cid = ctx.name();
+        ctx.close().await?;
+        let ctxs = self.contexts();
+        let mut contexts = ctxs.lock().await;
+        let _ = contexts.remove(&cid);
+        Ok(())
+    }
+
+    /// Closes all active contexts and removes them from tracking.
+    pub async fn cleanup(&self) -> crate::Result<()> {
+        for context in self.context_ids().await {
+            self.close_context(ContextSpecifier::Aliased { alias: context }).await?;
+        }
+
+        Ok(())
     }
 }

@@ -71,7 +71,9 @@ fn builder() -> tauri_specta::Builder<tauri::Wry> {
         commands::remove_directory,
         commands::remove_file,
         commands::file_metadata,
-        commands::list_directory
+        commands::list_directory,
+        commands::close_context,
+        commands::cleanup
     ])
 }
 

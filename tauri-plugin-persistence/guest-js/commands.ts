@@ -236,6 +236,22 @@ async listDirectory(context: ContextSpecifier, path: string) : Promise<Result<Pa
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };
 }
+},
+async closeContext(context: ContextSpecifier) : Promise<Result<null, Error>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|close_context", { context }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async cleanup() : Promise<Result<null, Error>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("plugin:persistence|cleanup") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
 }
 }
 
@@ -249,21 +265,137 @@ async listDirectory(context: ContextSpecifier, path: string) : Promise<Result<Pa
 
 /** user-defined types **/
 
-export type CollectionSpecifier = { transaction: string; name: string } | { name: string }
-export type ContextInfo = { name: string; path: string }
-export type ContextSpecifier = { alias: string; path: string } | { alias: string }
-export type DatabaseInfo = { name: string; path: string }
-export type DatabaseSpecifier = { alias: string; path: string } | { alias: string }
+/**
+ * A model used to specify a collection
+ */
+export type CollectionSpecifier = 
+/**
+ * Open a collection in a transaction
+ */
+{ 
+/**
+ * Transaction ID
+ */
+transaction: string; 
+/**
+ * Collection name
+ */
+name: string } | 
+/**
+ * Open a non-transacted collection
+ */
+{ 
+/**
+ * Collection name
+ */
+name: string }
+/**
+ * A model containing serializable information about a [crate::Context]
+ */
+export type ContextInfo = { 
+/**
+ * Context name
+ */
+name: string; 
+/**
+ * Context path
+ */
+path: string }
+/**
+ * A model used to specify an existing or closed context
+ */
+export type ContextSpecifier = 
+/**
+ * Open a new context
+ */
+{ alias: string; path: string } | 
+/**
+ * Return an existing context
+ */
+{ alias: string }
+/**
+ * A model containing serializable information about a [crate::Database]
+ */
+export type DatabaseInfo = { 
+/**
+ * Database name
+ */
+name: string; 
+/**
+ * Database path
+ */
+path: string }
+/**
+ * A model used to specify an existing or closed database
+ */
+export type DatabaseSpecifier = 
+/**
+ * Open a new database
+ */
+{ alias: string; path: string } | 
+/**
+ * Return an existing database
+ */
+{ alias: string }
 export type Error = { kind: "unknown"; reason: string } | { kind: "open_context"; name: string; path: string; reason: string } | { kind: "open_database"; name: string; context: string; path: string; reason: string } | { kind: "open_file_handle"; path: string; context: string; reason: string } | { kind: "unknown_context"; reason: string } | { kind: "unknown_database"; reason: string } | { kind: "unknown_file_handle"; reason: string } | { kind: "unknown_transaction"; reason: string } | { kind: "invalid_path"; reason: string } | { kind: "no_absolute_paths"; reason: string } | { kind: "path_escapes_context"; reason: string } | { kind: "database_error"; reason: string } | { kind: "serialization_error"; reason: string } | { kind: "deserialization_error"; reason: string } | { kind: "io_error"; reason: string } | { kind: "string_encoding_error"; reason: string } | { kind: "filesystem_error"; operation: string; reason: string }
-export type FileHandleInfo = { id: string; path: string; mode: FileHandleMode }
+/**
+ * A model containing serializable information about a [crate::FileHandle]
+ */
+export type FileHandleInfo = { 
+/**
+ * File handle ID
+ */
+id: string; 
+/**
+ * File handle path
+ */
+path: string; 
+/**
+ * Open mode
+ */
+mode: FileHandleMode }
 export type FileHandleMode = { mode: "create"; new: boolean; overwrite: boolean } | { mode: "write"; overwrite: boolean } | { mode: "read" }
-export type FileHandleSpecifier = { id: string } | { path: string; mode: FileHandleMode }
+/**
+ * A model used to specify an existing or closed file handle
+ */
+export type FileHandleSpecifier = 
+/**
+ * Return an existing file handle
+ */
+{ id: string } | 
+/**
+ * Open a new file handle
+ */
+{ path: string; mode: FileHandleMode }
 export type JsonValue = null | boolean | number | string | JsonValue[] | Partial<{ [key in string]: JsonValue }>
+/**
+ * Whether to do one operation or multiple (in a database context)
+ */
 export type OperationCount = "one" | "many"
+/**
+ * Description of the type of a file/directory/symlink
+ */
 export type PathFileType = "directory" | "file" | "symlink"
+/**
+ * General info about a path
+ */
 export type PathInformation = { file_name: string; absolute_path: string; media_type: string }
+/**
+ * File or folder metadata
+ */
 export type PathMetadata = { file_type: PathFileType; size: number; last_modified: string | null; last_accessed: string | null; created: string | null }
-export type UpdateResult = { matched: number; modified: number }
+/**
+ * Serializable version of [polodb_core::results::UpdateResult]
+ */
+export type UpdateResult = { 
+/**
+ * How many documents matched the filter
+ */
+matched: number; 
+/**
+ * How many documents were updated
+ */
+modified: number }
 
 /** tauri-specta globals **/
 

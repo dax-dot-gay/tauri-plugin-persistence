@@ -322,6 +322,40 @@ impl<R: Runtime> Context<R> {
             Err(crate::Error::unknown_file_handle(id.to_string()))
         }
     }
+
+    pub(crate) async fn file_ids(&self) -> Vec<bson::Uuid> {
+        let files = self.files().await;
+        let handles = files.lock().await;
+        let mut result: Vec<bson::Uuid> = Vec::new();
+        for id in handles.keys() {
+            result.push(id.clone());
+        }
+
+        result
+    }
+
+    pub(crate) async fn db_ids(&self) -> Vec<String> {
+        let dbs = self.databases().await;
+        let bases = dbs.lock().await;
+        let mut result: Vec<String> = Vec::new();
+        for id in bases.keys() {
+            result.push(id.clone());
+        }
+
+        result
+    }
+    
+    pub async fn close(self) -> crate::Result<()> {
+        for handle_id in self.file_ids().await {
+            self.close_file_handle(handle_id).await?;
+        }
+
+        for db_id in self.db_ids().await {
+            self.close_database(db_id).await?;
+        }
+
+        Ok(())
+    }
 }
 
 pub struct Database<R: Runtime> {

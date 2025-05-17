@@ -53,6 +53,24 @@ pub async fn file_handle(
     })
 }
 
+// Context commands
+#[tauri::command]
+#[specta::specta]
+pub async fn close_context(
+    app: tauri::AppHandle,
+    context: ContextSpecifier,
+) -> crate::Result<()> {
+    app.persistence().close_context(context).await
+}
+
+#[tauri::command]
+#[specta::specta]
+pub async fn cleanup(
+    app: tauri::AppHandle,
+) -> crate::Result<()> {
+    app.persistence().cleanup().await
+}
+
 // Database commands
 #[tauri::command]
 #[specta::specta]

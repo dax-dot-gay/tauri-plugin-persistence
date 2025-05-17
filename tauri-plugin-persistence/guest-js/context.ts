@@ -84,6 +84,10 @@ export class Context {
     public async list_directory(path: string): Res<PathInformation[]> {
         return Result.wrap(await commands.listDirectory(this.specifier, path));
     }
+
+    public async close(): Res<null> {
+        return Result.wrap(await commands.closeContext(this.specifier));
+    }
 }
 
 export class Transaction {

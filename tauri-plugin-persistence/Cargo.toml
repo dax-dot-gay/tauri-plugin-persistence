@@ -1,6 +1,6 @@
 [package]
 name = "tauri-plugin-persistence"
-version = "0.1.1"
+version = "0.2.0"
 authors = [ "Dax Harris" ]
 description = "A wrapper plugin for several persistence backends, focused on managing complex project folders with less boilerplate."
 edition = "2021"
