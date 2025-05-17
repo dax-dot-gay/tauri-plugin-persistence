@@ -18,7 +18,7 @@ mod commands;
 #[cfg(desktop)]
 mod desktop;
 
-pub use api::{Collection, Context, Database, Error, FileHandle, Result, Transaction, types};
+pub use api::{Collection, Context, Database, Error, FileHandle, Result, Transaction, types, ContextDB, ContextFileHandle, ContextState, FileHandleMode};
 pub(crate) use api::state;
 
 #[cfg(desktop)]
