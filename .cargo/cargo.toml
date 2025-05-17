@@ -1,0 +1,2 @@
+[env]
+ROCKSDB_LIB_DIR = "/usr/lib"
